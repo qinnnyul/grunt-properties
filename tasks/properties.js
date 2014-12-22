@@ -20,9 +20,8 @@ module.exports = function(grunt) {
     var options = this.options({
           namespace: 'config'
         }),
-        useNS = options.namespace.length > 0,
-        src = useNS === false ? '{\n' :
-            'var ' + options.namespace + ' = ' + options.namespace + ' || {};\n';
+        useNS = options.namespace.length > 0;
+
 
     function convert(filepath) {
       var fileContent = grunt.file.read(filepath),
@@ -48,6 +47,8 @@ module.exports = function(grunt) {
     this.files.forEach(function(f) {
 
       // Concat specified files.
+      var src = useNS === false ? '{\n' :
+      'var ' + options.namespace + ' = ' + options.namespace + ' || {};\n';
       src += f.src.filter(function(filepath) {
         // Warn on and remove invalid source files (if nonull was set).
         if (!grunt.file.exists(filepath)) {
